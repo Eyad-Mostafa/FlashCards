@@ -97,7 +97,7 @@ internal static class DatabaseManager
         }
     }
 
-    internal static List<Stack> GetStacks()
+    public static List<Stack> GetStacks()
     {
         var Stacks = new List<Stack>();
 
@@ -131,7 +131,7 @@ internal static class DatabaseManager
         return Stacks;
     }
 
-    internal static void AddStack(Stack stack)
+    public static void AddStack(Stack stack)
     {
         using (SqlConnection connection = new SqlConnection(_databaseConnectionString))
         try
