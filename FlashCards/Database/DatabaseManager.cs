@@ -16,7 +16,7 @@ internal static class DatabaseManager
 
     private static void CreateDatabase()
     {
-        using SqlConnection connection = new SqlConnection(_connectionString);
+        using var connection = new SqlConnection(_connectionString);
         try
         {
             connection.Open();
@@ -27,7 +27,7 @@ internal static class DatabaseManager
                     END;
                 ";
 
-            using (SqlCommand command = new SqlCommand(createDatabaseQuery, connection))
+            using (var command = new SqlCommand(createDatabaseQuery, connection))
             {
                 command.ExecuteNonQuery();
             }
@@ -39,7 +39,7 @@ internal static class DatabaseManager
     }
 
     private static void CreateTabels()
-    { 
+    {
         string createStacksTable = @"
             IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Stacks' AND xtype = 'U')
             BEGIN
@@ -83,12 +83,12 @@ internal static class DatabaseManager
 
     private static void ExecuteSqlScript(string connectionString, string script)
     {
-        using SqlConnection connection = new SqlConnection(connectionString);
+        using var connection = new SqlConnection(connectionString);
         try
         {
             connection.Open();
 
-            using SqlCommand command = new SqlCommand(script, connection);
+            using var command = new SqlCommand(script, connection);
             command.ExecuteNonQuery();
         }
         catch (Exception ex)
@@ -103,12 +103,12 @@ internal static class DatabaseManager
 
         string script = "SELECT * FROM Stacks";
 
-        using SqlConnection connection = new SqlConnection(_databaseConnectionString);
+        using var connection = new SqlConnection(_databaseConnectionString);
         try
         {
             connection.Open();
 
-            using SqlCommand command = new SqlCommand(script, connection);
+            using var command = new SqlCommand(script, connection);
             {
                 using var reader = command.ExecuteReader();
                 {
@@ -133,16 +133,37 @@ internal static class DatabaseManager
 
     public static void AddStack(Stack stack)
     {
-        using (SqlConnection connection = new SqlConnection(_databaseConnectionString))
+        using var connection = new SqlConnection(_databaseConnectionString);
         try
         {
             connection.Open();
 
             string script = "INSERT INTO Stacks (Name) VALUES (@Name)";
 
-            using (SqlCommand command = new SqlCommand(script, connection))
+            using (var command = new SqlCommand(script, connection))
             {
                 command.Parameters.AddWithValue("@Name", stack.Name);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error executing script: {ex.Message}");
+        }
+    }
+
+    public static void DeleteStack(Stack stack)
+    {
+        using var connection = new SqlConnection(_databaseConnectionString);
+        try
+        {
+            connection.Open();
+
+            string script = "DELETE FROM Stacks WHERE StackID = @StackID";
+
+            using (var command = new SqlCommand(script, connection))
+            {
+                command.Parameters.AddWithValue("@StackID", stack.StackId);
                 command.ExecuteNonQuery();
             }
         }
@@ -157,12 +178,12 @@ internal static class DatabaseManager
         var Flashcards = new List<Flashcard>();
         string script = "SELECT * FROM Flashcards WHERE StackID = @StackID";
 
-        using (SqlConnection connection = new SqlConnection(_databaseConnectionString))
+        using var connection = new SqlConnection(_databaseConnectionString);
         try
         {
             connection.Open();
-            
-            using (SqlCommand command = new SqlCommand(script, connection))
+
+            using (var command = new SqlCommand(script, connection))
             {
                 command.Parameters.AddWithValue("@StackID", StackId);
                 using (var reader = command.ExecuteReader())
@@ -188,11 +209,11 @@ internal static class DatabaseManager
         return Flashcards;
     }
 
-    internal static void AddFlashcard(Flashcard flashcard)
+    public static void AddFlashcard(Flashcard flashcard)
     {
         string script = "INSERT INTO Flashcards (StackID, Question, Answer) VALUES (@StackID, @Question, @Answer)";
 
-        using (SqlConnection connection = new SqlConnection(_databaseConnectionString))
+        using var connection = new SqlConnection(_databaseConnectionString);
         try
         {
             connection.Open();
@@ -202,6 +223,44 @@ internal static class DatabaseManager
                 command.Parameters.AddWithValue("@StackID", flashcard.StackId);
                 command.Parameters.AddWithValue("@Question", flashcard.Question);
                 command.Parameters.AddWithValue("@Answer", flashcard.Answer);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error executing script: {ex.Message}");
+        }
+    }
+
+    public static void DeleteFlashcard(Flashcard flashcard)
+    {
+        using SqlConnection connection = new SqlConnection(_databaseConnectionString);
+        try
+        {
+            string script = "DELETE FROM Flashcards WHERE StackID = @StackID";
+            using (SqlCommand command = new SqlCommand(script, connection))
+            {
+                command.Parameters.AddWithValue("@StackID", flashcard.StackId);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error executing script: {ex.Message}");
+        }
+    }
+
+    public static void EditFlashcard(Flashcard oldFlashcard, Flashcard newFlashcard)
+    {
+        using var connection = new SqlConnection(_databaseConnectionString);
+        try
+        {
+            string script = "UPDATE Flashcards SET Question = @Question, Answer = @Answer WHERE StackID = @StackID";
+            using (var command = new SqlCommand(script, connection))
+            {
+                command.Parameters.AddWithValue("@StackID", oldFlashcard.StackId);
+                command.Parameters.AddWithValue("@Question", newFlashcard.Question);
+                command.Parameters.AddWithValue("@Answer", newFlashcard.Answer);
                 command.ExecuteNonQuery();
             }
         }

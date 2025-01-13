@@ -53,6 +53,7 @@ static internal class Menu
         Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
     }
+
     private static void AddStack()
     {
         Console.Write("Enter the name of the stack: ");
@@ -80,6 +81,7 @@ static internal class Menu
     private static void ViewStacks()
     {
         var Stacks = DatabaseManager.GetStacks();
+        var SelectedStack = new Stack();
 
         if (Stacks == null || Stacks.Count == 0)
         {
@@ -118,27 +120,106 @@ static internal class Menu
                 Console.WriteLine("Invalid stack name. Please enter a valid name from the list.");
                 continue;
             }
+            else
+            {
+                SelectedStack = Stacks.First(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase));
+            }
 
             break;
         }
 
-        ManageStacksMenu(stackName);
+        ManageStacksMenu(SelectedStack);
     }
 
 
-    private static void ManageStacksMenu(string stackName)
+    private static void ManageStacksMenu(Stack stack)
     {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"Managing {stack.Name} Stack");
+            Console.WriteLine("Please Enter your choice");
+            Console.WriteLine("1- Add Flashcard");
+            Console.WriteLine("2- View Flashcards");
+            Console.WriteLine("3- Edit Flashcard");
+            Console.WriteLine("4- Delete Flashcard");
+            Console.WriteLine("5- Delete Stack");
+            Console.WriteLine("0- Back to main menu");
+            switch (Console.ReadLine()?.Trim())
+            {
+                case "1":
+                    AddFlashcard(stack);
+                    break;
+                case "2":
+                    ViewFlashcards(stack);
+                    break;
+                case "3":
+                    EditFlashcard(stack);
+                    break;
+                case "4":
+                    DatabaseManager.DeleteFlashcard(new Flashcard { StackId = stack.StackId });
+                    break;
+                case "5":
+                    DatabaseManager.DeleteStack(stack);
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Invalid choice, Try again.");
+                    PauseForUser();
+                    break;
+            }
+        }
+    }
+
+    private static void AddFlashcard(Stack stack)
+    {
+        var flashcard = new Flashcard { StackId = stack.StackId};
+        Console.Write("Enter Question : ");
+        string question = Console.ReadLine();
+        Console.Write("Enter Answer : ");
+        string answer = Console.ReadLine();
+        if (string.IsNullOrEmpty(answer) || string.IsNullOrEmpty(question))
+        {
+            Console.WriteLine("Question and Answer cannot be empty. Please try again.");
+            PauseForUser();
+            return;
+        }
+        flashcard.Answer = answer;
+        flashcard.Question = question;
+        DatabaseManager.AddFlashcard(flashcard);
+    }
+
+    private static void ViewFlashcards(Stack stack)
+    {
+        var flashcards = new List<Flashcard>();
+        flashcards = DatabaseManager.GetFlashcards(stack.StackId);
+        if (flashcards == null || flashcards.Count == 0)
+        {
+            Console.Clear();
+            Console.WriteLine("No flashcards available. Please add a flashcard first.");
+            Console.WriteLine("Please Enter Another choice.");
+            PauseForUser();
+            return;
+        }
         Console.Clear();
-        Console.WriteLine($"Managing {stackName} Stack");
-        Console.WriteLine("Please Enter your choice");
-        Console.WriteLine("1- Add Flashcard");
-        Console.WriteLine("2- View Flashcards");
-        Console.WriteLine("3- Edit Flashcard");
-        Console.WriteLine("4- Delete Flashcard");
-        Console.WriteLine("5- Delete Stack");
-        Console.WriteLine("0- Back to main menu");
+        Console.WriteLine($"Flash Cards for {stack.Name} :");
+        foreach (var flashcard in flashcards)
+        {
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine($"Question: {flashcard.Question}");
+            Console.WriteLine($"Answer: {flashcard.Answer}");
+            Console.WriteLine("-------------------------------------------------");
+        }
         PauseForUser();
     }
+
+    private static void EditFlashcard(Stack stack)
+    {
+        
+    }
+
     private static void ManageFlashcardsMenu()
     {
         throw new NotImplementedException();
