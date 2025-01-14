@@ -201,9 +201,9 @@ internal static class DatabaseManager
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-
+            Console.WriteLine($"Error executing script: {ex.Message}");
         }
 
         return Flashcards;
@@ -250,15 +250,18 @@ internal static class DatabaseManager
         }
     }
 
-    public static void EditFlashcard(Flashcard oldFlashcard, Flashcard newFlashcard)
+    public static void EditFlashcard(Flashcard newFlashcard)
     {
         using var connection = new SqlConnection(_databaseConnectionString);
+
         try
         {
-            string script = "UPDATE Flashcards SET Question = @Question, Answer = @Answer WHERE StackID = @StackID";
+            connection.Open();
+
+            string script = "UPDATE Flashcards SET Question = @Question, Answer = @Answer WHERE FlashcardID = @FlashcardID";
             using (var command = new SqlCommand(script, connection))
             {
-                command.Parameters.AddWithValue("@StackID", oldFlashcard.StackId);
+                command.Parameters.AddWithValue("@FlashcardID", newFlashcard.FlashcardId);
                 command.Parameters.AddWithValue("@Question", newFlashcard.Question);
                 command.Parameters.AddWithValue("@Answer", newFlashcard.Answer);
                 command.ExecuteNonQuery();

@@ -50,7 +50,7 @@ static internal class Menu
 
     private static void PauseForUser()
     {
-        Console.WriteLine("Press any key to continue...");
+        Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
     }
 
@@ -131,13 +131,12 @@ static internal class Menu
         ManageStacksMenu(SelectedStack);
     }
 
-
     private static void ManageStacksMenu(Stack stack)
     {
         while (true)
         {
             Console.Clear();
-            Console.WriteLine($"Managing {stack.Name} Stack");
+            Console.WriteLine($"Managing {stack.Name} Stack\n");
             Console.WriteLine("Please Enter your choice");
             Console.WriteLine("1- Add Flashcard");
             Console.WriteLine("2- View Flashcards");
@@ -149,9 +148,11 @@ static internal class Menu
             {
                 case "1":
                     AddFlashcard(stack);
+                    PauseForUser();
                     break;
                 case "2":
                     ViewFlashcards(stack);
+                    PauseForUser();
                     break;
                 case "3":
                     EditFlashcard(stack);
@@ -161,7 +162,9 @@ static internal class Menu
                     break;
                 case "5":
                     DatabaseManager.DeleteStack(stack);
-                    break;
+                    Console.WriteLine("Stack deleted successfully.");
+                    PauseForUser();
+                    return;
                 case "0":
                     return;
                 default:
@@ -191,7 +194,7 @@ static internal class Menu
         DatabaseManager.AddFlashcard(flashcard);
     }
 
-    private static void ViewFlashcards(Stack stack)
+    private static List<Flashcard>? ViewFlashcards(Stack stack)
     {
         var flashcards = new List<Flashcard>();
         flashcards = DatabaseManager.GetFlashcards(stack.StackId);
@@ -200,24 +203,60 @@ static internal class Menu
             Console.Clear();
             Console.WriteLine("No flashcards available. Please add a flashcard first.");
             Console.WriteLine("Please Enter Another choice.");
-            PauseForUser();
-            return;
+            return flashcards;
         }
         Console.Clear();
         Console.WriteLine($"Flash Cards for {stack.Name} :");
-        foreach (var flashcard in flashcards)
+        
+        for (int i = 0; i < flashcards.Count; i++)
         {
+
             Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine($"Question: {flashcard.Question}");
-            Console.WriteLine($"Answer: {flashcard.Answer}");
+            Console.WriteLine($"Flashcard Id: {i+1}");
+            Console.WriteLine($"Question: {flashcards[i].Question}");
+            Console.WriteLine($"Answer: {flashcards[i].Answer}");
             Console.WriteLine("-------------------------------------------------");
         }
-        PauseForUser();
+        return flashcards;
     }
 
     private static void EditFlashcard(Stack stack)
     {
-        
+        var flashcards = ViewFlashcards(stack);
+        if (flashcards == null || flashcards.Count == 0)
+        {
+            PauseForUser();
+            return;
+        }
+
+        Console.WriteLine("Enter the ID of the flashcard you want to edit");
+        int id = int.Parse(Console.ReadLine());
+        if (id < 1 || id > flashcards.Count)
+        {
+            Console.WriteLine("Invalid ID. Please try again.");
+            PauseForUser();
+            return;
+        }
+        Console.WriteLine("Enter the new question");
+        string question = Console.ReadLine();
+        Console.WriteLine("Enter the new answer");
+        string answer = Console.ReadLine();
+        if (string.IsNullOrEmpty(question) || string.IsNullOrEmpty(answer))
+        {
+            Console.WriteLine("Question and Answer cannot be empty. Please try again.");
+            PauseForUser();
+            return;
+        }
+        var newFlashcard = new Flashcard
+        {
+            FlashcardId = flashcards[id - 1].FlashcardId,
+            StackId = stack.StackId,
+            Question = question,
+            Answer = answer
+        };
+        DatabaseManager.EditFlashcard(newFlashcard);
+        Console.WriteLine("Flashcard edited successfully.");
+        PauseForUser();
     }
 
     private static void ManageFlashcardsMenu()
