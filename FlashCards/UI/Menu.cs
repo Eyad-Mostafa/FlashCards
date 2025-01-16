@@ -15,10 +15,9 @@ static internal class Menu
             Console.WriteLine("Please Enter your choice");
             Console.WriteLine("1- Add Stack");
             Console.WriteLine("2- Manage Stacks");
-            Console.WriteLine("3- Manage Flashcards");
-            Console.WriteLine("4- Study");
-            Console.WriteLine("5- View StudySessions");
-            Console.WriteLine("6- Exit");
+            Console.WriteLine("3- Study");
+            Console.WriteLine("4- View StudySessions");
+            Console.WriteLine("5- Exit");
             Console.WriteLine("");
             switch(Console.ReadLine()?.Trim())
             {
@@ -29,15 +28,12 @@ static internal class Menu
                     ViewStacks();
                     break;
                 case "3":
-                    ManageFlashcardsMenu();
-                    break;
-                case "4":
                     StudyMenu();
                     break;
-                case "5":
+                case "4":
                     StudySessionsMenu();
                     break;
-                case "6":
+                case "5":
                     return;
                 default:
                     Console.Clear();
@@ -265,14 +261,15 @@ static internal class Menu
         PauseForUser();
     }
 
-    private static void ManageFlashcardsMenu()
-    {
-        throw new NotImplementedException();
-    }
-
     private static void StudyMenu()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        Console.WriteLine("Please Enter Name of the stack you want to study from. Enter 0 to back");
+        var stackName = Console.ReadLine()?.Trim();
+        if (stackName == "0")
+        {
+            return;
+        }
     }
 
     private static void StudySessionsMenu()
