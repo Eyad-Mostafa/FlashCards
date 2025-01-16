@@ -93,7 +93,13 @@ static internal class Menu
         }
         Console.Clear();
         Console.WriteLine("Stacks:");
-        foreach (var stack in Stacks)
+
+        var DTOStacks = Stacks.Select(s => new StackDTO
+        {
+            Name = s.Name
+        }).ToList();
+
+        foreach (var stack in DTOStacks)
         {
             Console.WriteLine($"- {stack.Name}");
         }
