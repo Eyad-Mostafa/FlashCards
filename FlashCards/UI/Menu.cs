@@ -1,9 +1,11 @@
 ﻿using FlashCards.Database;
 using FlashCards.Models;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace FlashCards.UI;
 
-static internal class Menu
+internal static class Menu
 {
     public static void ShowMainMenu()
     {
@@ -17,15 +19,47 @@ static internal class Menu
             Console.WriteLine("2- Manage Stacks");
             Console.WriteLine("3- Study");
             Console.WriteLine("4- View StudySessions");
-            Console.WriteLine("5- Exit");
-            Console.WriteLine("");
+            Console.WriteLine("5- View year summary");
+            Console.WriteLine("0- Exit");
             switch(Console.ReadLine()?.Trim())
             {
                 case "1":
                     AddStack();
                     break;
                 case "2":
-                    ViewStacks();
+                    if (ViewStacks())
+                    {
+                        var Stacks = DatabaseManager.GetStacks();
+                        var SelectedStack = new Stack();
+                        Console.WriteLine("Please enter a stack name to manage or 0 to go back to the main menu.");
+                        string? stackName;
+                        while (true)
+                        {
+                            stackName = Console.ReadLine()?.Trim();
+
+                            if (string.IsNullOrEmpty(stackName))
+                            {
+                                Console.WriteLine("Input cannot be empty. Please try again.");
+                                continue;
+                            }
+
+                            if (stackName == "0")
+                                break;
+
+                            if (!Stacks.Any(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                Console.WriteLine("Invalid stack name. Please enter a valid name from the list.");
+                                continue;
+                            }
+                            else
+                            {
+                                SelectedStack = Stacks.First(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase));
+                            }
+
+                            ManageStacksMenu(SelectedStack);
+                            break;
+                        }
+                    }
                     break;
                 case "3":
                     StudyMenu();
@@ -34,6 +68,9 @@ static internal class Menu
                     StudySessionsMenu();
                     break;
                 case "5":
+                    ViewYearSummaryMenu();
+                    break;
+                case "0":
                     return;
                 default:
                     Console.Clear();
@@ -74,7 +111,7 @@ static internal class Menu
         PauseForUser();
     }
 
-    private static void ViewStacks()
+    private static bool ViewStacks()
     {
         var Stacks = DatabaseManager.GetStacks();
         var SelectedStack = new Stack();
@@ -85,7 +122,7 @@ static internal class Menu
             Console.WriteLine("No stacks available. Please add a stack first.");
             Console.WriteLine("Please Enter Another choice.");
             PauseForUser();
-            return;
+            return false;
         }
         Console.Clear();
         Console.WriteLine("Stacks:");
@@ -100,37 +137,7 @@ static internal class Menu
             Console.WriteLine($"- {stack.Name}");
         }
 
-        Console.WriteLine("Please enter a stack name to manage or 0 to go back to the main menu.");
-        string stackName;
-        while (true)
-        {
-            stackName = Console.ReadLine().Trim();
-
-            if (string.IsNullOrEmpty(stackName))
-            {
-                Console.WriteLine("Input cannot be empty. Please try again.");
-                continue;
-            }
-
-            if (stackName == "0")
-            {
-                return;
-            }
-
-            if (!Stacks.Any(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase)))
-            {
-                Console.WriteLine("Invalid stack name. Please enter a valid name from the list.");
-                continue;
-            }
-            else
-            {
-                SelectedStack = Stacks.First(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase));
-            }
-
-            break;
-        }
-
-        ManageStacksMenu(SelectedStack);
+        return true;
     }
 
     private static void ManageStacksMenu(Stack stack)
@@ -160,7 +167,7 @@ static internal class Menu
                     EditFlashcard(stack);
                     break;
                 case "4":
-                    DatabaseManager.DeleteFlashcard(new Flashcard { StackId = stack.StackId });
+                    DeleteFlashcardMenu(stack);
                     break;
                 case "5":
                     DatabaseManager.DeleteStack(stack);
@@ -182,13 +189,12 @@ static internal class Menu
     {
         var flashcard = new Flashcard { StackId = stack.StackId};
         Console.Write("Enter Question : ");
-        string question = Console.ReadLine();
+        string? question = Console.ReadLine()?.Trim();
         Console.Write("Enter Answer : ");
-        string answer = Console.ReadLine();
+        string? answer = Console.ReadLine()?.Trim();
         if (string.IsNullOrEmpty(answer) || string.IsNullOrEmpty(question))
         {
             Console.WriteLine("Question and Answer cannot be empty. Please try again.");
-            PauseForUser();
             return;
         }
         flashcard.Answer = answer;
@@ -232,7 +238,13 @@ static internal class Menu
         }
 
         Console.WriteLine("Enter the ID of the flashcard you want to edit");
-        int id = int.Parse(Console.ReadLine());
+
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID. Please try again.");
+            PauseForUser();
+            return;
+        }
         if (id < 1 || id > flashcards.Count)
         {
             Console.WriteLine("Invalid ID. Please try again.");
@@ -240,9 +252,9 @@ static internal class Menu
             return;
         }
         Console.WriteLine("Enter the new question");
-        string question = Console.ReadLine();
+        string? question = Console.ReadLine()?.Trim();
         Console.WriteLine("Enter the new answer");
-        string answer = Console.ReadLine();
+        string? answer = Console.ReadLine()?.Trim();
         if (string.IsNullOrEmpty(question) || string.IsNullOrEmpty(answer))
         {
             Console.WriteLine("Question and Answer cannot be empty. Please try again.");
@@ -261,19 +273,196 @@ static internal class Menu
         PauseForUser();
     }
 
+    private static void DeleteFlashcardMenu(Stack stack)
+    {
+        var flashcards = ViewFlashcards(stack);
+
+        if (flashcards == null || flashcards.Count == 0)
+        {
+            PauseForUser();
+            return;
+        }
+
+        Console.WriteLine("Enter the ID of the flashcard you want to delete");
+
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID. Please try again.");
+            PauseForUser();
+            return;
+        }
+        if (id < 1 || id > flashcards.Count)
+        {
+            Console.WriteLine("Invalid ID. Please try again.");
+            PauseForUser();
+            return;
+        }
+        DatabaseManager.DeleteFlashcard(flashcards[id - 1]);
+        Console.WriteLine("Flashcard deleted successfully.");
+        PauseForUser();
+    }
+
     private static void StudyMenu()
     {
         Console.Clear();
-        Console.WriteLine("Please Enter Name of the stack you want to study from. Enter 0 to back");
-        var stackName = Console.ReadLine()?.Trim();
-        if (stackName == "0")
+        ViewStacks();
+        string? stackName;
+        while (true)
         {
+            Console.WriteLine("Please Enter Name of the stack you want to study from. Enter 0 to back");
+            stackName = Console.ReadLine()?.Trim();
+            if (stackName == "0")
+                return;
+
+            if (string.IsNullOrEmpty(stackName))
+            {
+                Console.WriteLine("Input cannot be empty. Please try again.");
+                continue;
+            }
+
+            var Stacks = DatabaseManager.GetStacks();
+
+            if (!Stacks.Any(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase)))
+            {
+                Console.WriteLine("Invalid stack name. Please enter a valid name from the list.");
+                continue;
+            }
+            else
+            {
+                var SelectedStack = Stacks.First(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase));
+                StudyStack(SelectedStack);
+                break;
+            }
+        }
+    }
+
+    private static void StudyStack(Stack selectedStack)
+    {
+        Console.WriteLine($"Studying {selectedStack.Name}. \n");
+        var flashcards = DatabaseManager.GetFlashcards(selectedStack.StackId);
+        if (flashcards == null || flashcards.Count == 0)
+        {
+            Console.WriteLine("No flashcards available. Please add a flashcard first.");
+            Console.WriteLine("Please Enter Another choice.");
+            PauseForUser();
             return;
         }
+
+        var DTOFlashcards = flashcards.Select(s => new FlashcardDTO
+        {
+            Question = s.Question,
+            Answer = s.Answer
+        }).ToList();
+
+        int correctAnswers = 0;
+        for (int i = 0; i < DTOFlashcards.Count; i++)
+        {
+            Console.Clear();
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine($"Question no. : {i + 1}");
+            Console.WriteLine($"Question: {DTOFlashcards[i].Question}");
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("Please enter your answer");
+
+            string? answer = Console.ReadLine()?.Trim();
+            if (answer != null)
+            {
+                if (answer.Equals(DTOFlashcards[i].Answer, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine("Correct Answer");
+                    correctAnswers++;
+                    PauseForUser();
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect Answer");
+                    Console.WriteLine($"Correct Answer is : {DTOFlashcards[i].Answer}");
+                    PauseForUser();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Answer cannot be empty");
+                i--;
+                PauseForUser();
+                continue;
+            }
+        }
+        Console.Clear();
+        Console.WriteLine($"You have answerd {correctAnswers} of {DTOFlashcards.Count} questions correctly.");
+        var StudySession = new StudySession
+        {
+            StackId = selectedStack.StackId,
+            SessionDate = DateTime.UtcNow,
+            Score = correctAnswers
+        };
+        DatabaseManager.AddStudySession(StudySession);
+        PauseForUser();
     }
 
     private static void StudySessionsMenu()
     {
-        throw new NotImplementedException();
+        var sessions = DatabaseManager.GetStudySessions();
+        var stacks = DatabaseManager.GetStacks();
+
+        foreach (var session in sessions)
+        {
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine($"Date : {session.SessionDate}");
+            var stack = stacks.First(s => s.StackId == session.StackId);
+            Console.WriteLine($"Stack : {stack.Name}");
+            Console.WriteLine($"Score : {session.Score}");
+            Console.WriteLine("-------------------------------------------------\n");
+        }
+        PauseForUser();
+    }
+
+    private static void ViewYearSummaryMenu()
+    {
+        Console.Clear();
+        var sessions = DatabaseManager.GetStudySessions();
+        var stacks = DatabaseManager.GetStacks();
+
+        Console.WriteLine("Enter the year. 0 to back");
+        string? year = Console.ReadLine()?.Trim();
+        if (year == "0")
+            return;
+
+        if (string.IsNullOrEmpty(year))
+        {
+            Console.WriteLine("Year cannot be empty. Please try again.");
+            PauseForUser();
+            return;
+        }
+        if (!int.TryParse(year, out int yearInt))
+        {
+            Console.WriteLine("Invalid year. Please try again.");
+            PauseForUser();
+            return;
+        }
+
+        var results = sessions
+            .Where(s => s.SessionDate.Year == yearInt)
+            .GroupBy(s => new { s.StackId, s.SessionDate.Month })
+            .Select(g => new
+            {
+                StackId = g.Key.StackId,
+                Month = g.Key.Month,
+                AverageScore = g.Average(s => s.Score)
+            })
+            .OrderBy(r => r.Month)
+            .ThenByDescending(r => r.AverageScore);
+
+        Console.WriteLine("Stack Name       | Month | Average Score");
+        Console.WriteLine("-----------------|-------|---------------");
+        foreach (var result in results)
+        {
+            var stack = stacks.First(s => s.StackId == result.StackId);
+            string monthName = new DateTime(yearInt, result.Month, 1).ToString("MMM");
+
+            Console.WriteLine($"{stack.Name,-16} | {monthName,-5} | {result.AverageScore,13:F2}");
+        }
+
+        PauseForUser();
     }
 }

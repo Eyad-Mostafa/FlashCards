@@ -237,10 +237,11 @@ internal static class DatabaseManager
         using SqlConnection connection = new SqlConnection(_databaseConnectionString);
         try
         {
-            string script = "DELETE FROM Flashcards WHERE StackID = @StackID";
+            connection.Open();
+            string script = "DELETE FROM Flashcards WHERE FlashcardID = @FlashcardID";
             using (SqlCommand command = new SqlCommand(script, connection))
             {
-                command.Parameters.AddWithValue("@StackID", flashcard.StackId);
+                command.Parameters.AddWithValue("@FlashcardID", flashcard.FlashcardId);
                 command.ExecuteNonQuery();
             }
         }
@@ -270,6 +271,63 @@ internal static class DatabaseManager
         catch (Exception ex)
         {
             Console.WriteLine($"Error executing script: {ex.Message}");
+        }
+    }
+
+    public static void AddStudySession(StudySession session)
+    {
+
+        using var connection = new SqlConnection(_databaseConnectionString);
+        try
+        {
+            connection.Open();
+
+            string script = "INSERT INTO StudySessions (StackID, Date, Score) VALUES (@StackID, @Date, @Score)";
+            using (var command = new SqlCommand(script, connection))
+            {
+                command.Parameters.AddWithValue("@StackID", session.StackId);
+                command.Parameters.AddWithValue("@Date", session.SessionDate);
+                command.Parameters.AddWithValue("@Score", session.Score);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error executing script: {ex.Message}");
+        }
+    }
+
+    public static List<StudySession> GetStudySessions()
+    {
+        using var connection = new SqlConnection(_databaseConnectionString);
+        try
+        {
+            connection.Open();
+
+            string script = "SELECT * FROM StudySessions";
+            using (var command = new SqlCommand(script, connection))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    var sessions = new List<StudySession>();
+                    while (reader.Read())
+                    {
+                        sessions.Add(new StudySession
+                        {
+                            StudySessionId = (int)reader["SessionID"],
+                            StackId = (int)reader["StackID"],
+                            SessionDate = (DateTime)reader["Date"],
+                            Score = (int)reader["Score"]
+                        });
+                    }
+                    return sessions;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error executing script: {ex.Message}");
+            return new List<StudySession>();
         }
     }
 }
