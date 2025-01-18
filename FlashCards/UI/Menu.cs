@@ -90,7 +90,7 @@ internal static class Menu
 
     private static void AddStack()
     {
-        Console.Write("Enter the name of the stack: ");
+        Console.WriteLine("Enter the name of the stack. 0 To Back");
         var stackName = Console.ReadLine()?.Trim();
         if (string.IsNullOrEmpty(stackName))
         {
@@ -98,6 +98,9 @@ internal static class Menu
             PauseForUser();
             return;
         }
+        if (stackName == "0")
+            return;
+
         var Stacks = DatabaseManager.GetStacks();
         if (Stacks.Any(s => s.Name.Equals(stackName, StringComparison.OrdinalIgnoreCase)))
         {
