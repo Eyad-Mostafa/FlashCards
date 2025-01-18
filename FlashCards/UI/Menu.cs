@@ -1,5 +1,6 @@
 ﻿using FlashCards.Database;
 using FlashCards.Models;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -206,6 +207,7 @@ internal static class Menu
     {
         var flashcards = new List<Flashcard>();
         flashcards = DatabaseManager.GetFlashcards(stack.StackId);
+        var DTOStack = new StackDTO { Name = stack.Name };
         if (flashcards == null || flashcards.Count == 0)
         {
             Console.Clear();
@@ -214,15 +216,20 @@ internal static class Menu
             return flashcards;
         }
         Console.Clear();
-        Console.WriteLine($"Flash Cards for {stack.Name} :");
-        
-        for (int i = 0; i < flashcards.Count; i++)
+        Console.WriteLine($"Flash Cards for {DTOStack.Name} :");
+
+        var DTOFlashcards = flashcards.Select(f => new FlashcardDTO
+        {
+            Answer = f.Answer,
+            Question = f.Question
+        }).ToList();
+        for (int i = 0; i < DTOFlashcards.Count; i++)
         {
 
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine($"Flashcard Id: {i+1}");
-            Console.WriteLine($"Question: {flashcards[i].Question}");
-            Console.WriteLine($"Answer: {flashcards[i].Answer}");
+            Console.WriteLine($"Question: {DTOFlashcards[i].Question}");
+            Console.WriteLine($"Answer: {DTOFlashcards[i].Answer}");
             Console.WriteLine("-------------------------------------------------");
         }
         return flashcards;
@@ -404,6 +411,14 @@ internal static class Menu
     {
         var sessions = DatabaseManager.GetStudySessions();
         var stacks = DatabaseManager.GetStacks();
+        Console.Clear();
+        if (sessions.IsNullOrEmpty())
+        {
+            Console.WriteLine("No study sessions available.");
+            PauseForUser();
+            return;
+        }
+        Console.WriteLine("Study Sessions:");
 
         foreach (var session in sessions)
         {
@@ -453,6 +468,14 @@ internal static class Menu
             .OrderBy(r => r.Month)
             .ThenByDescending(r => r.AverageScore);
 
+        if (results.IsNullOrEmpty())
+        {
+            Console.WriteLine("No results for this year");
+            PauseForUser();
+            return;
+        }
+        Console.Clear();
+        Console.WriteLine($"Year Summary for {yearInt}:\n");
         Console.WriteLine("Stack Name       | Month | Average Score");
         Console.WriteLine("-----------------|-------|---------------");
         foreach (var result in results)

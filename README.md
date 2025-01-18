@@ -86,7 +86,25 @@ This project emphasizes:
 ---
 
 ## Demo
-![Application Screenshot](#)  
 
-~ will be added ~
+### Main Menu
+![Main Menu](Images/Main%20Menu.png)  
+This is the main menu where users can navigate through the application's various features.
+
+### Manage Stacks
+![Manage Stacks](Images/ManageStack.png)  
+The interface for managing stacks. Users can add, view, or delete stacks from here.
+
+### Viewing Stacks
+![Viewing Stacks](Images/ViewingStacks.png)  
+A detailed view of the available stacks, displaying their unique names.
+
+### Study Sessions
+![Study Sessions](Images/Sessions.png)  
+Displays all recorded study sessions. **Note:** The time in this screenshot is `12:00:00 AM` because SQL was used to insert test data for a larger sample. During actual usage, the application records the real session time.
+
+### Yearly Summary
+![Yearly Summary](Images/Summary.png)  
+A summary of the study sessions for a specific year, grouped by stacks and showing the average scores for each month.
+
 ---
