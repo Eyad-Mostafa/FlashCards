@@ -201,6 +201,15 @@ internal static class Menu
             Console.WriteLine("Question and Answer cannot be empty. Please try again.");
             return;
         }
+
+        var flashCards = DatabaseManager.GetFlashcards(stack.StackId);
+        if (flashCards != null && flashCards.Any(f => f.Question.Equals(question, StringComparison.OrdinalIgnoreCase)))
+        {
+            Console.WriteLine("Flashcard with the same question already exists. Please try again.");
+            PauseForUser();
+            return;
+        }
+
         flashcard.Answer = answer;
         flashcard.Question = question;
         DatabaseManager.AddFlashcard(flashcard);
