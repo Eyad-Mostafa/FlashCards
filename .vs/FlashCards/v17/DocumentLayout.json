@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\ui\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\ui\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\database\\databasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\database\\databasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\models\\flashcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\models\\flashcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\models\\studysession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\models\\studysession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\models\\stack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\models\\stack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\models\\stackdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\models\\stackdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\models\\flashcarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\models\\flashcarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|c:\\users\\eyad mostafa\\source\\repos\\flashcards\\flashcards\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E8EDEF5-9C1C-4E5B-9C58-F3111742D65E}|FlashCards\\FlashCards.csproj|solutionrelative:flashcards\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Program.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Program.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Program.cs",
+              "RelativeToolTip": "FlashCards\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T19:37:20.888Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DatabaseManager.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Database\\DatabaseManager.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Database\\DatabaseManager.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Database\\DatabaseManager.cs",
+              "RelativeToolTip": "FlashCards\\Database\\DatabaseManager.cs",
+              "ViewState": "AQIAAHAAAAAAAAAAAAAWwIQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T22:15:59.026Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Menu.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\UI\\Menu.cs",
+              "RelativeDocumentMoniker": "FlashCards\\UI\\Menu.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\UI\\Menu.cs",
+              "RelativeToolTip": "FlashCards\\UI\\Menu.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHEAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T22:09:55.855Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StudySession.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\StudySession.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Models\\StudySession.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\StudySession.cs",
+              "RelativeToolTip": "FlashCards\\Models\\StudySession.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T21:51:32.322Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Stack.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\Stack.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Models\\Stack.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\Stack.cs",
+              "RelativeToolTip": "FlashCards\\Models\\Stack.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T21:47:33.683Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Flashcard.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\Flashcard.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Models\\Flashcard.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\Flashcard.cs",
+              "RelativeToolTip": "FlashCards\\Models\\Flashcard.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAYAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T21:43:02.182Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FlashcardDto.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\FlashcardDto.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Models\\FlashcardDto.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\FlashcardDto.cs",
+              "RelativeToolTip": "FlashCards\\Models\\FlashcardDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T21:45:17.532Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StackDto.cs",
+              "DocumentMoniker": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\StackDto.cs",
+              "RelativeDocumentMoniker": "FlashCards\\Models\\StackDto.cs",
+              "ToolTip": "C:\\Users\\Eyad Mostafa\\source\\repos\\FlashCards\\FlashCards\\Models\\StackDto.cs",
+              "RelativeToolTip": "FlashCards\\Models\\StackDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T21:55:15.295Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
