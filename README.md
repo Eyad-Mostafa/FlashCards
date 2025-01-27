@@ -28,7 +28,7 @@ effectively.
 
 - **Programming Language**: C#
 - **Database**: SQL Server
-- **Libraries**: Entity Framework, LINQ
+- **Libraries**: LINQ
 - **Other**: .NET SDK (version 6.0 or above)
 
 ## Installation and Usage
@@ -39,7 +39,7 @@ effectively.
 2. Clone this repository:
 
    ```bash
-   git clone https://github.com/Eyad-Mostafa/FlashCards
+   git clone https://github.com/Eyad-Mostafa/FlashCards.git
    ```
 
 3. Configure the connection string in the project file to point to your SQL Server
