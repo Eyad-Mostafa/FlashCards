@@ -39,7 +39,7 @@ effectively.
 2. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/flashcards-app.git
+   git clone https://github.com/Eyad-Mostafa/FlashCards
    ```
 
 3. Configure the connection string in the project file to point to your SQL Server
